@@ -2,13 +2,13 @@ var throttle = require('lodash.throttle');
 
 
 const formElem = document.querySelector('.feedback-form');
-const formButton = document.querySelector('.feedback-form button');
 
 formElem.addEventListener('input', throttle(onFormInput, 500));
-formButton.addEventListener('click', getFormButton);
-formElem.addEventListener('submit', formRemove);
+formElem.addEventListener('submit', formSubmit);
 
-function onFormInput() {
+getValueForm();
+
+function onFormInput(event) {
     const emailValue = formElem.elements.email.value;
     const messageValue = formElem.elements.message.value;
     // console.log(emailValue);
@@ -23,17 +23,26 @@ function onFormInput() {
     localStorage.setItem("feedback-form-state", JSON.stringify(objForm));
 }
 
-function getFormButton(event) {
+function getValueForm(event) {
+    const emailValue = formElem.elements.email.value;
+    const messageValue = formElem.elements.message.value;
+    // console.log(emailValue);
+    // console.log(messageValue);
+
     const getObjForm = JSON.parse(localStorage.getItem("feedback-form-state"));
-    console.log(getObjForm);
+
+    if (getObjForm) {
+        emailValue = getObjForm.email;
+        messageValue = getObjForm.message;
+    }
 }
 
-function formRemove(event) {
+function formSubmit(event) {
     event.preventDefault();
+    event.currentTarget.reset();
 
     const objForm = JSON.parse(localStorage.getItem("feedback-form-state"));
-    // console.log(objForm);
-    localStorage.removeItem("feedback-form-state");
+    console.log(objForm);
 
-    event.currentTarget.reset();
+    localStorage.removeItem("feedback-form-state");
 }
