@@ -6,6 +6,12 @@ const formElem = document.querySelector('.feedback-form');
 formElem.addEventListener('input', throttle(onFormInput, 500));
 formElem.addEventListener('submit', formSubmit);
 
+const objForm = {
+    email: emailValue,
+    message: messageValue,
+}
+// console.log(objForm);
+
 getValueForm();
 
 function onFormInput(event) {
@@ -14,35 +20,24 @@ function onFormInput(event) {
     // console.log(emailValue);
     // console.log(messageValue);
 
-    const objForm = {
-        email: emailValue,
-        message: messageValue,
-    }
-    // console.log(objForm);
-
     localStorage.setItem("feedback-form-state", JSON.stringify(objForm));
-}
-
-function getValueForm(event) {
-    const emailValue = formElem.elements.email.value;
-    const messageValue = formElem.elements.message.value;
-    // console.log(emailValue);
-    // console.log(messageValue);
-
-    const getObjForm = JSON.parse(localStorage.getItem("feedback-form-state"));
-
-    if (getObjForm) {
-        emailValue = getObjForm.email;
-        messageValue = getObjForm.message;
-    }
-}
+};
 
 function formSubmit(event) {
     event.preventDefault();
+    
+    localStorage.removeItem("feedback-form-state");
+
     event.currentTarget.reset();
 
-    const objForm = JSON.parse(localStorage.getItem("feedback-form-state"));
-    console.log(objForm);
+    console.log(objForm);   
+};
 
-    localStorage.removeItem("feedback-form-state");
-}
+function getValueForm() {
+   const getObjForm = JSON.parse(localStorage.getItem("feedback-form-state"));
+
+    if (getObjForm) {
+        document.querySelector('input') = getObjForm.email;
+        document.querySelector('textarea') = getObjForm.message;
+    }
+};
