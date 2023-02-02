@@ -26,14 +26,14 @@ function onFormInput(event) {
 
 function formSubmit(event) {
     event.preventDefault();
+    event.currentTarget.reset();
 
     const objForm = JSON.parse(localStorage.getItem("feedback-form-state"));
     console.log(objForm);
-
-    event.currentTarget.reset();
+    localStorage.removeItem("feedback-form-state");
 }
 
-function getValueForm() {
+function getValueForm(event) {
     const saveData = JSON.parse(localStorage.getItem("feedback-form-state"));
         if (saveData) {
             formElem.elements.email.value = saveData.email;
